@@ -9,7 +9,7 @@ const App = props => {
   const [schedule, setSchedule] = useState(undefined);
 
   useEffect(() => {
-    const schedule = scheduler(teams.count(), times);
+    const schedule = scheduler(teams.count(), parseInt(times, 10));
 
     setSchedule(schedule);
   }, [teams, times]);

@@ -17,16 +17,26 @@ const reverser = roundRobin => {
 };
 
 const scheduler = (numberOfTeams, times) => {
-  const rr = roundRobin(numberOfTeams);
-  const schedule = rr.concat(reverser(rr));
+  const schedules = Range(1, times + 1).map(r => {
+    const rr = roundRobin(numberOfTeams);
 
-  return Repeat(schedule, times)
+    if (r % 2 === 0) {
+      return reverser(rr);
+    }
+    return rr;
+  });
+
+  console.log(schedules.toJS(), "schedules wtf");
+
+  // console.log(schedules.toJS(), "s");
+
+  return schedules
     .flatten(true)
     .map(round => {
       return round.map(pairing => {
         return Map({
-          home: pairing.get(0),
-          away: pairing.get(1)
+          home: pairing.get(1),
+          away: pairing.get(0)
         });
       });
     })
